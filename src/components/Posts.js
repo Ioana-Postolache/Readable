@@ -6,6 +6,7 @@ import SortButton from "./SortButton";
 
 class Posts extends Component {
   state = { sorted: "sortByTimestamp", sortDirection: "desc" };
+
   sort = event => {
     const sorted = event.target.name;
     this.setState(prevState => {
@@ -20,6 +21,8 @@ class Posts extends Component {
       };
     });
   };
+
+  createPost = () => {};
 
   render() {
     const { posts } = this.props;
@@ -71,6 +74,9 @@ class Posts extends Component {
             {posts && sorted_posts.map(p => <Post key={p.id} post={p} />)}
           </div>
         </div>
+        <button className="ui secondary button" onClick={this.createPost}>
+          Create new post
+        </button>
       </div>
     );
   }
