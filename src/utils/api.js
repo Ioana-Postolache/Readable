@@ -15,6 +15,21 @@ const headers = {
   Authorization: token
 };
 
+//get categoeries and posts
+export const getInitialData = () => {
+  return Promise.all([
+    fetch(`${api}/categories`, { headers })
+      .then(res => res.json())
+      .then(data => data.categories),
+    fetch(`${api}/posts`, { headers })
+      .then(res => res.json())
+      .then(data => data)
+  ]).then(([categories, posts]) => ({
+    categories,
+    posts
+  }));
+};
+
 //used for 'GET /categories', GET /posts
 export const getAll = schema =>
   fetch(`${api}/${schema}`, { headers })

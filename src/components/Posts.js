@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getAll } from "../utils/api";
 import { connect } from "react-redux";
-import { formatDate } from "../utils/helpers";
+import Post from "./Post";
 
 class Posts extends Component {
   render() {
@@ -15,35 +15,7 @@ class Posts extends Component {
         <h3 className="ui block header"> Posts Lists </h3>
         <div className="ui segment">
           <div className="ui items">
-            {posts &&
-              posts.map(post => {
-                const {
-                  id,
-                  timestamp,
-                  title,
-                  body,
-                  author,
-                  category,
-                  voteScore,
-                  deleted,
-                  commentCount
-                } = post;
-                return (
-                  <div key={id} className="item">
-                    <div className="content">
-                      <div className="header">{title}</div>
-                      <div className="extra">
-                        Posted by {author} in {category} on{" "}
-                        {formatDate(timestamp)}
-                      </div>
-                      <div className="description">{body}</div>
-                      <div className="extra">
-                        {commentCount} comments | Vote score: {voteScore}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+            {posts && posts.map(p => <Post key={p.id} post={p} />)}
           </div>
         </div>
       </div>
@@ -52,16 +24,16 @@ class Posts extends Component {
 }
 
 function mapStateToProperties({ posts }) {
-  let sortedPosts = [];
+  let postsArray = [];
 
-  sortedPosts = Object.values(posts).map(post => {
+  postsArray = Object.values(posts).map(p => {
     return {
-      ...post
+      ...p
     };
   });
 
   return {
-    posts: sortedPosts
+    posts: postsArray
   };
 }
 export default connect(mapStateToProperties)(Posts);

@@ -1,15 +1,35 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import LoadingBar from "react-redux-loading";
 import handleInitialData from "../actions/shared";
 import Posts from "./Posts";
+import Categories from "./Categories";
+import Nav from "./Nav";
 
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(handleInitialData());
   }
-
   render() {
-    return <Posts />;
+    const { loading } = this.props;
+    return (
+      <Router>
+        <Fragment>
+          <LoadingBar />
+          {loading ? null : (
+            <div className="ui container">
+              <h1 className="ui block header"> Would You Rather App</h1>
+              <div>
+                <Nav />
+                <Route path="/" exact component={Categories} />
+                <Route path="/posts" component={Posts} />
+              </div>
+            </div>
+          )}
+        </Fragment>
+      </Router>
+    );
   }
 }
 
