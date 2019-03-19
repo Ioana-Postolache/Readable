@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { getAll } from "../utils/api";
 import { connect } from "react-redux";
 import Post from "./Post";
+import SortButton from "./SortButton";
 
 class Posts extends Component {
   state = { sorted: "sortByTimestamp", sortDirection: "desc" };
@@ -44,24 +45,19 @@ class Posts extends Component {
       <div className="ui segment">
         <h3 className="ui block header"> Posts Lists </h3>
         <div className="inline">
-          <button
-            className={
-              sorted === "sortByTimestamp" ? "ui button" : "ui primary button"
-            }
-            name="sortByVote"
+          <SortButton
+            sorted={sorted}
+            check={"sortByVote"}
+            name={"sortByVote"}
             onClick={this.sort}
-          >
-            Order by vote score
-          </button>
-          <button
-            className={
-              sorted === "sortByTimestamp" ? "ui primary button" : "ui button"
-            }
-            name="sortByTimestamp"
+          />
+          <SortButton
+            sorted={sorted}
+            check={"sortByTimestamp"}
+            name={"sortByTimestamp"}
             onClick={this.sort}
-          >
-            Order by timestamp
-          </button>
+          />
+
           <i
             className={
               sortDirection === "asc"
