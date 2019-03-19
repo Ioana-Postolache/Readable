@@ -19,7 +19,7 @@ class App extends Component {
           <LoadingBar />
           {loading ? null : (
             <div className="ui container">
-              <h1 className="ui block header"> Would You Rather App</h1>
+              <h1 className="ui block header"> Readable App</h1>
               <div>
                 <Nav />
                 <Route path="/" exact component={Categories} />

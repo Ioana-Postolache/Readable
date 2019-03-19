@@ -16,17 +16,19 @@ class Post extends Component {
     } = this.props.post;
 
     return (
-      <div className="item">
-        <div className="content">
-          <div className="header">{title}</div>
-          <div className="extra">
-            Posted by {author} in {category} on {formatDate(timestamp)}
+
+        <div className="item">
+          <div className="content">
+            <div className="header">{title}</div>
+            <div className="extra">
+              Posted by {author} in {category} on {formatDate(timestamp)}
+            </div>
+            <div className="description">{body}</div>
+            <div className="extra">
+              {commentCount} comments | Vote score: {voteScore}
+            </div>
           </div>
-          <div className="description">{body}</div>
-          <div className="extra">
-            {commentCount} comments | Vote score: {voteScore}
-          </div>
-        </div>
+      
       </div>
     );
   }

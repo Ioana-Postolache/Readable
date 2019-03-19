@@ -4,18 +4,75 @@ import { connect } from "react-redux";
 import Post from "./Post";
 
 class Posts extends Component {
+  state = { sorted: "sortByTimestamp", sortDirection: "desc" };
+  sort = event => {
+    const sorted = event.target.name;
+    this.setState(prevState => {
+      return {
+        sorted,
+        sortDirection:
+          prevState.sorted === sorted
+            ? prevState.sortDirection === "desc"
+              ? "asc"
+              : "desc"
+            : prevState.sortDirection
+      };
+    });
+  };
+
   render() {
-    getAll("categories").then(data =>
-      console.log("categories............", JSON.stringify(data))
-    );
     const { posts } = this.props;
-    console.log("posts................", JSON.stringify(posts));
+    const { sorted, sortDirection } = this.state;
+    const sorted_posts =
+      posts && sorted === "sortByTimestamp"
+        ? sortDirection === "desc"
+          ? posts.sort((a, b) => {
+              return -a.timestamp - b.timestamp;
+            })
+          : posts.sort((a, b) => {
+              return a.timestamp - b.timestamp;
+            })
+        : sortDirection === "desc"
+        ? posts.sort((a, b) => {
+            return -a.voteScore - b.voteScore;
+          })
+        : posts.sort((a, b) => {
+            return a.voteScore - b.voteScore;
+          });
+
     return (
       <div className="ui segment">
         <h3 className="ui block header"> Posts Lists </h3>
-        <div className="ui segment">
-          <div className="ui items">
-            {posts && posts.map(p => <Post key={p.id} post={p} />)}
+        <div className="inline">
+          <button
+            className={
+              sorted === "sortByTimestamp" ? "ui button" : "ui primary button"
+            }
+            name="sortByVote"
+            onClick={this.sort}
+          >
+            Order by vote score
+          </button>
+          <button
+            className={
+              sorted === "sortByTimestamp" ? "ui primary button" : "ui button"
+            }
+            name="sortByTimestamp"
+            onClick={this.sort}
+          >
+            Order by timestamp
+          </button>
+          <i
+            className={
+              sortDirection === "asc"
+                ? "arrow alternate circle up icon"
+                : "arrow alternate circle down icon"
+            }
+          />
+        </div>
+        <div className="ui  segment">
+          <div className="ui  divided items">
+            {posts && sorted_posts.map(p => <Post key={p.id} post={p} />)}
           </div>
         </div>
       </div>
@@ -26,11 +83,15 @@ class Posts extends Component {
 function mapStateToProperties({ posts }) {
   let postsArray = [];
 
-  postsArray = Object.values(posts).map(p => {
-    return {
-      ...p
-    };
-  });
+  postsArray = Object.values(posts)
+    .map(p => {
+      return {
+        ...p
+      };
+    })
+    .sort((a, b) => {
+      return -a.timestamp - b.timestamp;
+    });
 
   return {
     posts: postsArray
