@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { getAll } from "../utils/api";
-import { connect } from "react-redux";
+import { connect} from "react-redux";
+import {Link} from 'react-router-dom'
 import Post from "./Post";
 import SortButton from "./SortButton";
 
@@ -21,8 +22,6 @@ class Posts extends Component {
       };
     });
   };
-
-  createPost = () => {};
 
   render() {
     const { posts } = this.props;
@@ -71,15 +70,13 @@ class Posts extends Component {
         </div>
         <div className="ui  segment">
           <div className="ui  divided items">
-            {posts &&
-              sorted_posts.map(p => (
-                <Post key={p.id} postId={p.id}/>
-              ))}
+            {posts && sorted_posts.map(p => <Post key={p.id} postId={p.id} />)}
           </div>
         </div>
-        <button className="ui secondary button" onClick={this.createPost}>
+
+        <Link className="ui button" to="/new-post">
           Create new post
-        </button>
+        </Link>
       </div>
     );
   }

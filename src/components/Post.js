@@ -12,7 +12,7 @@ class Post extends Component {
     event.preventDefault();
     const option = event.currentTarget.name;
     const { handleVote, post, dispatch } = this.props;
-  
+
     dispatch(handleVotePost("posts", { id: post.id, option })).then(() =>
       this.setState({ option })
     );
@@ -72,6 +72,9 @@ class Post extends Component {
                 }
               >
                 <i className="thumbs down  icon" name="downVote" />
+              </button>
+              <button className="ui secondary button" onClick={this.editPost}>
+                Edit post
               </button>
             </div>
           </div>
