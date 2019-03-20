@@ -1,46 +1,31 @@
-import { ADD_POST, RECEIVE_POSTS, SUBMIT_VOTE } from '../actions/posts'
+import { ADD_POST, RECEIVE_POSTS, SUBMIT_VOTE } from "../actions/posts";
 
-export default function posts (state={}, action){
-  switch(action.type){
+export default function posts(state = {}, action) {
+  switch (action.type) {
     case RECEIVE_POSTS:
-      return {
-        ...state,
-        ...action.payload
-      }
+      return action.payload;
+
     case ADD_POST:
       return {
         ...state,
-        [action.payload.id]: {...action.payload}
-      }
+        [action.payload.id]: { ...action.payload }
+      };
     case SUBMIT_VOTE:
-      const {qid, authedUser, vote} = action.payload
+      const { id, option } = action.payload;
 
-      if(vote === 'optionOne') {
-        console.log('SUBMIT_VOTE has been called with ',qid, authedUser, vote)
-        return {
-          ...state,
-          [qid]:{
-                  ...state[qid],
-                  optionOne: {
-                              ...state[qid].optionOne,
-                              votes: state[qid].optionOne.votes.concat(authedUser)
-                             }
-                 }
-         }
+      const newState = state.map(post => {
+        if (post.id === id) {
+          option === "upVote"
+            ? (post.voteScore = post.voteScore + 1)
+            : (post.voteScore = post.voteScore - 1);
+        }
 
-     }
-     return {
-        ...state,
-        [qid]:{
-                ...state[qid],
-                optionTwo: {
-                            ...state[qid].optionTwo,
-                            votes: state[qid].optionTwo.votes.concat(authedUser)
-                           }
-               }
-       }
+        return post;
+      });
+
+      return newState;
 
     default:
-      return state
+      return state;
   }
 }

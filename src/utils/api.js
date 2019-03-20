@@ -61,6 +61,19 @@ export const postData = (schema, body) =>
     .then(res => res.json())
     .then(data => data);
 
+//used for 'PUT /posts/:id' , 'POST /comments/:id' option - [String]: Either "upVote" or "downVote".
+export const postVote = (schema, id, option) =>
+  fetch(`${api}/${schema}/${id}`, {
+    method: "POST",
+    headers: {
+      ...headers,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(option)
+  })
+    .then(res => res.json())
+    .then(data => data);
+
 export const update = (book, shelf) =>
   fetch(`${api}/books/${book.id}`, {
     method: "PUT",

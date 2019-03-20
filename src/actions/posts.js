@@ -1,4 +1,4 @@
-import { postData, getAll } from "../utils/api";
+import { postData, getAll, postVote } from "../utils/api";
 import { showLoading, hideLoading } from "react-redux-loading";
 
 export const ADD_POST = "SAVE_POST";
@@ -19,6 +19,13 @@ function addPost(post) {
   };
 }
 
+function addVote({ id, option }) {
+  return {
+    type: SUBMIT_VOTE,
+    payload: { id, option }
+  };
+}
+
 export function handleReceivePosts() {
   return dispatch => {
     dispatch(showLoading());
@@ -34,6 +41,15 @@ export function handleAddPost(schema, post) {
     dispatch(showLoading());
     return postData(schema, post)
       .then(post => dispatch(addPost(post)))
+      .then(dispatch(hideLoading()));
+  };
+}
+
+export function handleVotePost(schema, { id, option }) {
+  return (dispatch, getState) => {
+    dispatch(showLoading());
+    return postVote(schema, id, { option })
+      .then(post => dispatch(addVote({ id, option })))
       .then(dispatch(hideLoading()));
   };
 }

@@ -71,7 +71,10 @@ class Posts extends Component {
         </div>
         <div className="ui  segment">
           <div className="ui  divided items">
-            {posts && sorted_posts.map(p => <Post key={p.id} post={p} />)}
+            {posts &&
+              sorted_posts.map(p => (
+                <Post key={p.id} postId={p.id}/>
+              ))}
           </div>
         </div>
         <button className="ui secondary button" onClick={this.createPost}>
