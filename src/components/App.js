@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import LoadingBar from "react-redux-loading";
 import handleInitialData from "../actions/shared";
 import Posts from "./Posts";
+import NewPost from "./NewPost";
 import Categories from "./Categories";
 import Nav from "./Nav";
 
@@ -24,6 +25,7 @@ class App extends Component {
                 <Nav />
                 <Route path="/" exact component={Categories} />
                 <Route path="/posts" component={Posts} />
+                <Route path="/new-post" component={NewPost} />
               </div>
             </div>
           )}

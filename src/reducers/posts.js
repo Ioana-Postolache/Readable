@@ -6,10 +6,8 @@ export default function posts(state = {}, action) {
       return action.payload;
 
     case ADD_POST:
-      return {
-        ...state,
-        [action.payload.id]: { ...action.payload }
-      };
+      return state.concat(action.payload);
+
     case SUBMIT_VOTE:
       const { id, option } = action.payload;
 

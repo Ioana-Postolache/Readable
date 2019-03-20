@@ -1,96 +1,149 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Redirect } from 'react-router-dom'
-import { handleAddPost } from '../actions/posts'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import uniqid from "uniqid";
+import { handleAddPost } from "../actions/posts";
+import Dropdown from "react-dropdown";
 
-class NewPost extends Component{
-
+class NewPost extends Component {
   state = {
-    text1: '',
-    text2: '',
+    title: "",
+    author: "",
+    body: "",
+    category: "",
     toHome: false
-  }
+  };
 
-  handleSubmit = ( event )=>{
-    event.preventDefault()
-    const { text1, text2 } = this.state
-    const { dispatch } = this.props
-
-    dispatch( handleAddPost( text1, text2 ) )
+  handleSubmit = event => {
+    event.preventDefault();
+    const { title, author, body, category } = this.state;
+    const { dispatch } = this.props;
+    const post = {
+      id: uniqid(),
+      timestamp: Date.now(),
+      title,
+      author,
+      body,
+      category,
+      voteScore: 1,
+      deleted: false
+    };
+    dispatch(handleAddPost('posts', post));
 
     this.setState({
-      text1: '',
-      text2: '',
+      title: "",
+      author: "",
+      body: "",
+      category: "",
       toHome: true
-    })
-  }
+    });
+  };
 
-  handleChange = ( event ) => {
-    const text = event.target.value
-    const option = event.target.name
-    if(option==='textarea1'){
-      this.setState({
-         text1: text
-      })
-    } else {
-      this.setState({
-         text2: text
-      })
+  onSelect = event => {
+    console.log(event.target.value);
+    this.setState({ category: event.target.value });
+  };
+
+  handleChange = event => {
+    const text = event.target.value;
+    const option = event.target.name;
+    switch (option) {
+      case "title":
+        return this.setState({
+          title: text
+        });
+      case "author":
+        return this.setState({
+          author: text
+        });
+      case "body":
+        return this.setState({
+          body: text
+        });
+      default:
+        return undefined;
     }
- }
+  };
 
   render() {
-    const { text1, text2, toHome } = this.state
-
-
-    if ( authedUser === true ){
-      return <Redirect to =  '/SignInPage'/>
+    const { title, author, body, category, toHome } = this.state;
+    const { categories } = this.props;
+    console.log(this.state);
+    if (toHome === true) {
+      return <Redirect to="/" />;
     }
 
-    if ( toHome === true ){
-      return <Redirect to =  '/'/>
-    }
-
-    return(
+    return (
       <div className="ui segment">
-        <h3 className="ui block header">Would you rather...</h3>
-        <form className='ui form' onSubmit={this.handleSubmit}>
-           <div className="two fields">
-               <div className="field">
-                   <input
-                     type="text"
-                     name='textarea1'
-                     placeholder='Enter option one here'
-                     value={text1}
-                     onChange={this.handleChange}
-                     className='textarea'
-                    />
-              </div>
-              <div className="field">
-                   <input
-                     name='textarea2'
-                     type="text"
-                     placeholder='Enter option two here'
-                     value={text2}
-                     onChange={this.handleChange}
-                     className='textarea'
-                   />
-              </div>
+        <h3 className="ui block header">Create new post</h3>
+        <form className="ui form" onSubmit={this.handleSubmit}>
+          <div className="field">
+            <input
+              type="text"
+              name="title"
+              placeholder="title"
+              value={title}
+              onChange={this.handleChange}
+              className="textarea"
+            />
+          </div>
+
+          <div className="field">
+            <input
+              type="text"
+              name="body"
+              placeholder="body"
+              value={body}
+              onChange={this.handleChange}
+              className="textarea"
+            />
+          </div>
+          <div className="two fields">
+            <div className="field">
+              <input
+                type="text"
+                name="author"
+                placeholder="author"
+                value={author}
+                onChange={this.handleChange}
+                className="textarea"
+              />
+            </div>
+
+            <select onChange={this.onSelect} className="ui dropdown">
+              <option hidden={true} value="">
+                Category
+              </option>
+              {categories.map((c, index) => (
+                <option key={index} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
           </div>
           <button
-             className='ui secondary button'
-             type='submit'
-             disabled={ text1===''  || text2==='' }
-           >
+            className="ui secondary button"
+            type="submit"
+            disabled={
+              title === "" || author === "" || body === "" || category === ""
+            }
+          >
             Submit
           </button>
         </form>
       </div>
-    )
+    );
   }
 }
 
-function mapStateToProps({ authedUser}) {
-  return { authedUser }
+function mapStateToProperties({ categories }) {
+  let categoriesArray = [];
+  let postsArray = [];
+
+  categoriesArray = Object.values(categories).map(c => c.name);
+
+  return {
+    categories: categoriesArray
+  };
 }
-export default connect(mapStateToProps)(NewPost)
+export default connect(mapStateToProperties)(NewPost);

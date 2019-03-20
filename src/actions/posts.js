@@ -37,7 +37,6 @@ export function handleReceivePosts() {
 
 export function handleAddPost(schema, post) {
   return (dispatch, getState) => {
-    const { authedUser } = getState();
     dispatch(showLoading());
     return postData(schema, post)
       .then(post => dispatch(addPost(post)))

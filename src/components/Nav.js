@@ -12,6 +12,9 @@ class Nav extends Component {
           <NavLink className="item" to="/posts">
             Posts
           </NavLink>
+          <NavLink className="item" to="/new-post">
+            New Post
+          </NavLink>
         </div>
       </nav>
     );
