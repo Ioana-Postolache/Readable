@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { getAll } from "../utils/api";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Post from "./Post";
@@ -24,7 +23,9 @@ class Posts extends Component {
   };
 
   render() {
+
     const { posts } = this.props;
+
     const { sorted, sortDirection } = this.state;
     const sorted_posts =
       posts && sorted === "sortByTimestamp"
@@ -88,10 +89,11 @@ class Posts extends Component {
   }
 }
 
-function mapStateToProperties({ posts }) {
+function mapStateToProperties({ posts }, { category }) {
   let postsArray = [];
 
   postsArray = Object.values(posts)
+    .filter(p => (category === "all" ? p : p.category === category))
     .map(p => {
       return {
         ...p

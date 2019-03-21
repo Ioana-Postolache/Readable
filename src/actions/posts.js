@@ -36,7 +36,6 @@ function editPost(post, id) {
 }
 
 function removePost(id) {
-    console.log('From removePost...................', id)
   return {
     type: REMOVE_POST,
     payload: id

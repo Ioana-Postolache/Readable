@@ -21,7 +21,7 @@ class Post extends Component {
   vote = event => {
     event.preventDefault();
     const option = event.currentTarget.name;
-    const { handleVote, post, dispatch } = this.props;
+    const { post, dispatch } = this.props;
 
     dispatch(handleVotePost("posts", { id: post.id, option })).then(() =>
       this.setState({ option })
@@ -41,7 +41,6 @@ class Post extends Component {
         author,
         category,
         voteScore,
-        deleted,
         commentCount
       } = post;
 

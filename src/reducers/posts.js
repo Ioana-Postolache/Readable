@@ -43,7 +43,6 @@ export default function posts(state = {}, action) {
 
       return editedState;
       case REMOVE_POST:
-        console.log('reducers REMOVE_POST', action.payload)
         return state.filter(post=>post.id!==action.payload);
     default:
       return state;

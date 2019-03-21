@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import uniqid from "uniqid";
 import { handleAddPost, handleEditPost } from "../actions/posts";
-import Dropdown from "react-dropdown";
 
 class NewPost extends Component {
   state = {
@@ -85,7 +84,7 @@ class NewPost extends Component {
     const { post } = this.props;
 
     if (post !== undefined) {
-      const { id, title, body, author, category } = post;
+      const { title, body, author, category } = post;
       return this.setState({ title, body, author, category });
     }
   }
