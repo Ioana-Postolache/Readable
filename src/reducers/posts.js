@@ -1,4 +1,9 @@
-import { ADD_POST, RECEIVE_POSTS, SUBMIT_VOTE } from "../actions/posts";
+import {
+  ADD_POST,
+  RECEIVE_POSTS,
+  SUBMIT_VOTE,
+  EDIT_POST
+} from "../actions/posts";
 
 export default function posts(state = {}, action) {
   switch (action.type) {
@@ -23,6 +28,19 @@ export default function posts(state = {}, action) {
 
       return newState;
 
+    case EDIT_POST:
+      const { post } = action.payload;
+
+      const { title, body } = post;
+      const editedState = state.map(p => {
+        if (p.id === action.payload.post.id) {
+          p.title = title;
+          p.body = body;
+        }
+        return p;
+      });
+
+      return editedState;
     default:
       return state;
   }

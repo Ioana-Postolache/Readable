@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import uniqid from "uniqid";
-import { handleAddPost } from "../actions/posts";
+import { handleAddPost, handleEditPost } from "../actions/posts";
 import Dropdown from "react-dropdown";
 
 class NewPost extends Component {
@@ -17,30 +17,46 @@ class NewPost extends Component {
   handleSubmit = event => {
     event.preventDefault();
     const { title, author, body, category } = this.state;
-    const { dispatch } = this.props;
-    const post = {
-      id: uniqid(),
-      timestamp: Date.now(),
-      title,
-      author,
-      body,
-      category,
-      voteScore: 1,
-      deleted: false
-    };
-    dispatch(handleAddPost('posts', post));
+    const { dispatch, post } = this.props;
 
-    this.setState({
-      title: "",
-      author: "",
-      body: "",
-      category: "",
-      toHome: true
-    });
+    if (post === undefined) {
+      const post = {
+        id: uniqid(),
+        timestamp: Date.now(),
+        title,
+        author,
+        body,
+        category,
+        voteScore: 1,
+        deleted: false
+      };
+      return dispatch(handleAddPost("posts", post)).then(() =>
+        this.setState({
+          title: "",
+          author: "",
+          body: "",
+          category: "",
+          toHome: true
+        })
+      );
+    } else {
+      const { id } = post;
+      const editedPost = { title, body };
+
+      dispatch(handleEditPost("posts",  id, editedPost)).then(() =>
+        this.setState({
+          title: "",
+          author: "",
+          body: "",
+          category: "",
+          toHome: true
+        })
+      );
+    }
   };
 
   onSelect = event => {
-    console.log(event.target.value);
+
     this.setState({ category: event.target.value });
   };
 
@@ -65,12 +81,20 @@ class NewPost extends Component {
     }
   };
 
+  componentDidMount() {
+    const { post } = this.props;
+
+    if (post !== undefined) {
+      const { id, title, body, author, category } = post;
+      return this.setState({ title, body, author, category });
+    }
+  }
   render() {
     const { title, author, body, category, toHome } = this.state;
     const { categories } = this.props;
-    console.log(this.state);
+
     if (toHome === true) {
-      return <Redirect to="/" />;
+      return <Redirect to="/posts" />;
     }
 
     return (
@@ -136,14 +160,17 @@ class NewPost extends Component {
   }
 }
 
-function mapStateToProperties({ categories }) {
-  let categoriesArray = [];
-  let postsArray = [];
+function mapStateToProperties({ posts, categories }, props) {
+  const { id } = props.match.params;
+  const post = id
+    ? Object.values(posts).filter(post => post.id === id)[0]
+    : undefined;
 
-  categoriesArray = Object.values(categories).map(c => c.name);
+  const categoriesArray = Object.values(categories).map(c => c.name);
 
   return {
-    categories: categoriesArray
+    categories: categoriesArray,
+    post
   };
 }
 export default connect(mapStateToProperties)(NewPost);

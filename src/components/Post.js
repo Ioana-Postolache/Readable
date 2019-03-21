@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import {withRouter} from 'react-router-dom'
 import { formatDate } from "../utils/helpers";
 import { handleVotePost } from "../actions/posts";
 
@@ -7,6 +8,11 @@ class Post extends Component {
   state = {
     option: ""
   };
+
+  editPost = (e, id) => {
+      e.preventDefault()
+      this.props.history.push(`/posts/${id}`)
+  }
 
   vote = event => {
     event.preventDefault();
@@ -73,7 +79,7 @@ class Post extends Component {
               >
                 <i className="thumbs down  icon" name="downVote" />
               </button>
-              <button className="ui secondary button" onClick={this.editPost}>
+              <button className="ui button" onClick={(e)=>this.editPost(e, id)}>
                 Edit post
               </button>
             </div>
@@ -91,4 +97,5 @@ function mapStateToProps({ posts }, props) {
   return { post: Object.values(posts).filter(post => post.id === postId)[0] };
 }
 
-export default connect(mapStateToProps)(Post);
+//needed for history to work
+export default withRouter(connect(mapStateToProps)(Post));

@@ -8,7 +8,7 @@ const SortButton = props => {
       name={name}
       onClick={onClick}
     >
-      Order by vote score
+      {name}
     </button>
   );
 };
