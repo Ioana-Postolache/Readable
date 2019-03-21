@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { getAll } from "../utils/api";
-import { connect} from "react-redux";
-import {Link} from 'react-router-dom'
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import Post from "./Post";
 import SortButton from "./SortButton";
 
@@ -46,37 +46,43 @@ class Posts extends Component {
     return (
       <div className="ui segment">
         <h3 className="ui block header"> Posts Lists </h3>
-        <div className="inline">
-          <SortButton
-            sorted={sorted}
-            check={"sortByVote"}
-            name={"sortByVote"}
-            onClick={this.sort}
-          />
-          <SortButton
-            sorted={sorted}
-            check={"sortByTimestamp"}
-            name={"sortByTimestamp"}
-            onClick={this.sort}
-          />
 
-          <i
-            className={
-              sortDirection === "asc"
-                ? "arrow alternate circle up icon"
-                : "arrow alternate circle down icon"
-            }
-          />
+        <div className="ui segment">
+          <div className="ui two column very relaxed grid">
+            <div className="column">
+              <SortButton
+                sorted={sorted}
+                check={"sortByVote"}
+                name={"sortByVote"}
+                onClick={this.sort}
+              />
+              <SortButton
+                sorted={sorted}
+                check={"sortByTimestamp"}
+                name={"sortByTimestamp"}
+                onClick={this.sort}
+              />
+
+              <i
+                className={
+                  sortDirection === "asc"
+                    ? "arrow alternate circle up icon"
+                    : "arrow alternate circle down icon"
+                }
+              />
+            </div>
+            <div className="column">
+              <Link className="ui secondary button" to="/new-post">
+                Create new post
+              </Link>
+            </div>
+          </div>
         </div>
         <div className="ui  segment">
           <div className="ui  divided items">
             {posts && sorted_posts.map(p => <Post key={p.id} postId={p.id} />)}
           </div>
         </div>
-
-        <Link className="ui secondary button" to="/new-post">
-          Create new post
-        </Link>
       </div>
     );
   }

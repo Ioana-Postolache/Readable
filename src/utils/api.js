@@ -75,7 +75,7 @@ export const postVote = (schema, id, option) =>
     .then(data => data);
 
 //used for 'PUT /posts/:id' , 'PUT /comments/:id'
-export const putPost = (schema, id, post) => {
+export const putData = (schema, id, post) => {
   return fetch(`${api}/${schema}/${id}`, {
     method: "PUT",
     headers: {
@@ -83,28 +83,13 @@ export const putPost = (schema, id, post) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(post)
-  })
-    .then(res => res.json())
+  }).then(res => res.json());
 };
 
-export const update = (book, shelf) =>
-  fetch(`${api}/books/${book.id}`, {
-    method: "PUT",
-    headers: {
-      ...headers,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ shelf })
-  }).then(res => res.json());
-
-export const search = (query, maxResults) =>
-  fetch(`${api}/search`, {
-    method: "POST",
-    headers: {
-      ...headers,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ query, maxResults })
-  })
-    .then(res => res.json())
-    .then(data => data.books);
+//used for 'DELETE /posts/:id' , 'DELETE /comments/:id'
+export const deleteData = (schema, id) => {
+  return fetch(`${api}/${schema}/${id}`, {
+    method: "DELETE",
+    headers
+  });
+};

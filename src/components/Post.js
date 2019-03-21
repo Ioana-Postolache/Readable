@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {withRouter} from 'react-router-dom'
+import { withRouter } from "react-router-dom";
 import { formatDate } from "../utils/helpers";
-import { handleVotePost } from "../actions/posts";
+import { handleVotePost, handleDeletePost } from "../actions/posts";
 
 class Post extends Component {
   state = {
@@ -10,9 +10,13 @@ class Post extends Component {
   };
 
   editPost = (e, id) => {
-      e.preventDefault()
-      this.props.history.push(`/posts/${id}`)
-  }
+    e.preventDefault();
+    this.props.history.push(`/posts/${id}`);
+  };
+
+  deletePost = id => {
+    this.props.dispatch(handleDeletePost('posts', id));
+  };
 
   vote = event => {
     event.preventDefault();
@@ -27,7 +31,6 @@ class Post extends Component {
   render() {
     const { option } = this.state;
     const { post } = this.props;
-
 
     if (post) {
       const {
@@ -79,8 +82,14 @@ class Post extends Component {
               >
                 <i className="thumbs down  icon" name="downVote" />
               </button>
-              <button className="ui button" onClick={(e)=>this.editPost(e, id)}>
+              <button className="ui button" onClick={e => this.editPost(e, id)}>
                 Edit post
+              </button>
+              <button
+                className="ui button"
+                onClick={e => this.deletePost(id)}
+              >
+                Delete post
               </button>
             </div>
           </div>

@@ -1,10 +1,11 @@
-import { postData, putPost, getAll, postVote } from "../utils/api";
+import { postData, putData, deleteData, getAll, postVote } from "../utils/api";
 import { showLoading, hideLoading } from "react-redux-loading";
 
 export const ADD_POST = "SAVE_POST";
 export const RECEIVE_POSTS = "RECEIVE_POSTS";
 export const SUBMIT_VOTE = "SUBMIT_VOTE";
 export const EDIT_POST = "EDIT_POST";
+export const REMOVE_POST = "REMOVE_POST";
 
 export function receivePosts(posts) {
   return {
@@ -34,6 +35,14 @@ function editPost(post, id) {
   };
 }
 
+function removePost(id) {
+    console.log('From removePost...................', id)
+  return {
+    type: REMOVE_POST,
+    payload: id
+  };
+}
+
 export function handleReceivePosts() {
   return dispatch => {
     dispatch(showLoading());
@@ -56,7 +65,7 @@ export function handleVotePost(schema, { id, option }) {
   return (dispatch, getState) => {
     dispatch(showLoading());
     return postVote(schema, id, { option })
-      .then(post => dispatch(addVote({ id, option })))
+      .then(() => dispatch(addVote({ id, option })))
       .then(dispatch(hideLoading()));
   };
 }
@@ -65,8 +74,17 @@ export function handleEditPost(schema, id, editedPost ) {
   const post = editedPost;
   return (dispatch, getState) => {
     dispatch(showLoading());
-    return putPost(schema, id, post)
+    return putData(schema, id, post)
       .then((id, post) => dispatch(editPost(id, post)))
+      .then(dispatch(hideLoading()));
+  };
+}
+
+export function handleDeletePost(schema, id) {
+  return (dispatch, getState) => {
+    dispatch(showLoading());
+    return deleteData(schema, id)
+      .then(()=> dispatch(removePost(id)))
       .then(dispatch(hideLoading()));
   };
 }

@@ -1,12 +1,11 @@
 import React, { Component } from "react";
 import { getAll } from "../utils/api";
 import { connect } from "react-redux";
-import Post from "./Post";
 
 class Categories extends Component {
   render() {
-    const { posts, categories } = this.props;
-    console.log("posts................", JSON.stringify(posts));
+    const { categories } = this.props;
+
     console.log("categories................", JSON.stringify(categories));
     return (
       <div className="ui segment">
@@ -26,24 +25,16 @@ class Categories extends Component {
   }
 }
 
-function mapStateToProperties({ categories, posts }) {
+function mapStateToProperties({ categories }) {
   let categoriesArray = [];
-  let postsArray = [];
-  console.log(JSON.stringify(categories));
-  console.log(JSON.stringify(posts));
+
   categoriesArray = Object.values(categories).map(c => {
     return {
       ...c
     };
   });
-  postsArray = Object.values(posts).map(p => {
-    return {
-      ...p
-    };
-  });
 
   return {
-    posts: postsArray,
     categories: categoriesArray
   };
 }

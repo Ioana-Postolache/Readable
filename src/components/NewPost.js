@@ -94,7 +94,7 @@ class NewPost extends Component {
     const { categories } = this.props;
 
     if (toHome === true) {
-      return <Redirect to="/posts" />;
+      return <Redirect to="/" />;
     }
 
     return (

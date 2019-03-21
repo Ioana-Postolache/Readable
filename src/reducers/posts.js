@@ -2,7 +2,8 @@ import {
   ADD_POST,
   RECEIVE_POSTS,
   SUBMIT_VOTE,
-  EDIT_POST
+  EDIT_POST,
+  REMOVE_POST
 } from "../actions/posts";
 
 export default function posts(state = {}, action) {
@@ -41,6 +42,9 @@ export default function posts(state = {}, action) {
       });
 
       return editedState;
+      case REMOVE_POST:
+        console.log('reducers REMOVE_POST', action.payload)
+        return state.filter(post=>post.id!==action.payload);
     default:
       return state;
   }
