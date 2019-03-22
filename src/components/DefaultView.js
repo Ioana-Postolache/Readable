@@ -17,7 +17,7 @@ class DefaultView extends Component {
 
   render() {
     const { selectedCategory } = this.props;
-    console.log(this.props);
+
     return (
       <div>
         <Categories

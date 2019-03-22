@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 class Nav extends Component {
   render() {
-    console.log(this.props)
+  
     return (
       <nav className="ui segment">
         <div className="ui menu">

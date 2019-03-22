@@ -5,6 +5,7 @@ import Post from "./Post";
 import Comment from "./Comment";
 import { getDetails, postVote, deleteData } from "../utils/api";
 import { handleReceivePosts } from "../actions/posts";
+import PageNotFound from "./PageNotFound";
 
 class PostDetail extends Component {
   state = { comments: undefined };
@@ -41,6 +42,11 @@ class PostDetail extends Component {
   render() {
     const { id } = this.props.match.params;
     const { comments } = this.state;
+    const { postId } = this.props;
+    console.log(this.props);
+    if (postId === undefined) {
+      return <PageNotFound />;
+    }
 
     if (id) {
       return (
@@ -80,4 +86,11 @@ class PostDetail extends Component {
   }
 }
 
-export default connect()(PostDetail);
+function mapStateToProps({ posts }, props) {
+  const { id } = props.match.params;
+  const post = Object.values(posts).filter(post => post.id === id);
+  return {
+    postId: post.length === 0 ? undefined : null
+  };
+}
+export default connect(mapStateToProps)(PostDetail);
