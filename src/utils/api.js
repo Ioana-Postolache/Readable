@@ -40,7 +40,7 @@ export const getData = (schema, id) =>
     .then(res => res.json())
     .then(data => data);
 
-//used for GET /posts/:id
+//used for GET /posts/:id/comments
 export const getDetails = (schema, id, schema2) =>
   fetch(`${api}/${schema}/${id}/${schema2}`, { headers })
     .then(res => res.json())

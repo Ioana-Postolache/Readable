@@ -29,7 +29,6 @@ class PostDetail extends Component {
   };
 
   voteComment = (event, comment, option) => {
-    const { dispatch } = this.props;
     const { id, parentId } = comment;
     postVote("comments", id, { option })
       .then(() => getDetails("posts", parentId, "comments"))
@@ -38,7 +37,7 @@ class PostDetail extends Component {
 
   render() {
     const { id } = this.props.match.params;
-    const { comments, option } = this.state;
+    const { comments } = this.state;
 
     if (id) {
       return (
@@ -53,7 +52,7 @@ class PostDetail extends Component {
                 </h4>
                 <Link
                   className="ui secondary button"
-                  to="/posts/:id/newComment"
+                  to={`/posts/${id}/newComment`}
                 >
                   New comment
                 </Link>

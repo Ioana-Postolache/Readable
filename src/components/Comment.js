@@ -15,7 +15,7 @@ class Comment extends Component {
   render() {
     const { option } = this.state;
     const { comment } = this.props;
-    const { id, parentId, timestamp, body, author, voteScore } = comment;
+    const { id, timestamp, body, author, voteScore } = comment;
 
     return (
       <div className="ui comments" key={id}>

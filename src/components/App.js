@@ -5,6 +5,7 @@ import LoadingBar from "react-redux-loading";
 import handleInitialData from "../actions/shared";
 import Posts from "./Posts";
 import NewPost from "./NewPost";
+import NewComment from "./NewComment";
 import PostDetail from "./PostDetail";
 import Categories from "./Categories";
 import Nav from "./Nav";
@@ -75,7 +76,9 @@ class App extends Component {
                 />
                 <Route path="/posts/new" component={NewPost} />
                 <Route path="/posts/edit/:id" component={NewPost} />
-                <Route path="/posts/:id" component={PostDetail} />
+                <Route path="/posts/:id" exact component={PostDetail} />
+                <Route path="/posts/:id/newComment" exact component={NewComment} />
+                <Route path="/comments/edit/:id" exact component={NewComment} />
               </div>
             </div>
           )}
