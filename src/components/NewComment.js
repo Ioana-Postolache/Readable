@@ -45,11 +45,6 @@ class NewComment extends Component {
 
       putData("comments", id, editedComment).then(() =>
         this.setState({
-          id: "",
-          parentId: "",
-          body: "",
-          author: "",
-          commentType: "",
           toPost: true
         })
       );
@@ -83,9 +78,11 @@ class NewComment extends Component {
 
   componentDidMount() {
     const { id } = this.props.match.params;
+
     if (this.props.match.path === "/posts/:id/newComment") {
       return this.setState({ parentId: id, commentType: "new" });
     }
+
     getData("comments", id).then(comment => {
       const { parentId, timestamp, body, author, voteScore } = comment;
       return this.setState({
@@ -101,10 +98,7 @@ class NewComment extends Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log(this.state);
-
-    const { body, author, parentId, toPost } = this.state;
+    const { body, author, parentId, toPost, commentType } = this.state;
 
     if (toPost === true) {
       return <Redirect to={`/posts/${parentId}`} />;
@@ -112,7 +106,9 @@ class NewComment extends Component {
 
     return (
       <div className="ui segment">
-        <h3 className="ui block header">Create new comment</h3>
+        <h3 className="ui block header">
+          {commentType === "new" ? "Create new comment" : "Edit comment"}
+        </h3>
         <form className="ui form" onSubmit={this.handleSubmit}>
           <div className="field">
             <input
@@ -124,22 +120,27 @@ class NewComment extends Component {
               className="textarea"
             />
           </div>
-          <div className="two fields">
-            <div className="field">
-              <input
-                type="text"
-                name="author"
-                placeholder="author"
-                value={author}
-                onChange={this.handleChange}
-                className="textarea"
-              />
+          {commentType === "new" ? (
+            <div className="two fields">
+              <div className="field">
+                <input
+                  type="text"
+                  name="author"
+                  placeholder="author"
+                  value={author}
+                  onChange={this.handleChange}
+                  className="textarea"
+                />
+              </div>
             </div>
-          </div>
+          ) : null}
+
           <button
             className="ui secondary button"
             type="submit"
-            disabled={author === "" || body === ""}
+            disabled={
+              commentType === "new" ? author === "" || body === "" : body === ""
+            }
           >
             Submit
           </button>

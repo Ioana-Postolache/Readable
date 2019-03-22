@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import { formatDate } from "../utils/helpers";
+import { withRouter } from "react-router-dom";
 
 class Comment extends Component {
   state = { option: "" };
+
+  editComment = (e, id) => {
+    this.props.history.push(`/comments/edit/${id}`);
+  };
 
   voteComment = event => {
     const option = event.currentTarget.name;
@@ -72,4 +77,4 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+export default withRouter(Comment);
