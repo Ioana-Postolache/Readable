@@ -1,21 +1,31 @@
 import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 class Nav extends Component {
   render() {
+    console.log(this.props)
     return (
       <nav className="ui segment">
         <div className="ui menu">
-          <NavLink className="item" to="/" exact>
+          <button
+            className="ui basic button"
+            onClick={() => {
+              this.props.history.push("/");
+              this.props.changeState("all");
+            }}
+          >
             Home
-          </NavLink>
-          <NavLink className="item" to="/posts/new">
+          </button>
+          <button
+            className="ui basic button"
+            onClick={() => this.props.history.push("/posts/new")}
+          >
             New Post
-          </NavLink>
+          </button>
         </div>
       </nav>
     );
   }
 }
 
-export default Nav;
+export default withRouter(Nav);

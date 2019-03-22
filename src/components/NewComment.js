@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import uniqid from "uniqid";
 import { postData, putData, getData } from "../utils/api";
+import { handleReceivePosts } from "../actions/posts";
 
 class NewComment extends Component {
   state = {
@@ -17,9 +18,10 @@ class NewComment extends Component {
   handleSubmit = event => {
     event.preventDefault();
 
-    const { commentType, id, timestamp, body, author, parentId } = this.state;
+    const { commentType, id, body, author, parentId } = this.state;
 
     if (commentType === "new") {
+      const { dispatch } = this.props;
       const comment = {
         id: uniqid(),
         timestamp: Date.now(),
@@ -31,17 +33,18 @@ class NewComment extends Component {
         deletedParent: false
       };
 
-      return postData("comments", comment).then(() =>
-        this.setState({
-          timestamp,
-          body,
-          author,
-          parentId,
-          toPost: true
-        })
-      );
+      return postData("comments", comment)
+        .then(() => dispatch(handleReceivePosts()))
+        .then(() =>
+          this.setState({
+            body,
+            author,
+            parentId,
+            toPost: true
+          })
+        );
     } else {
-      const editedComment = { body };
+      const editedComment = { body, timestamp: Date.now() };
 
       putData("comments", id, editedComment).then(() =>
         this.setState({

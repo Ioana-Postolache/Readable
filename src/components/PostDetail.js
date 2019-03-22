@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Post from "./Post";
 import Comment from "./Comment";
 import { getDetails, postVote, deleteData } from "../utils/api";
+import { handleReceivePosts } from "../actions/posts";
 
 class PostDetail extends Component {
   state = { comments: undefined };
@@ -22,8 +23,10 @@ class PostDetail extends Component {
   };
 
   deleteComment = comment => {
+    const { dispatch } = this.props;
     const { id, parentId } = comment;
     deleteData("comments", id)
+      .then(() => dispatch(handleReceivePosts()))
       .then(() => getDetails("posts", parentId, "comments"))
       .then(comments => this.setState({ comments }));
   };
@@ -62,7 +65,7 @@ class PostDetail extends Component {
                       key={comment.id}
                       comment={comment}
                       deleteComment={this.deleteComment}
-                      vote={this.voteComment}
+                      voteComment={this.voteComment}
                     />
                   );
                 })}

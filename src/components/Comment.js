@@ -62,12 +62,12 @@ class Comment extends Component {
               <i className="thumbs down  icon" name="downVote" />
             </button>
             <button
-              className="ui button"
+              className="ui basic button"
               onClick={e => this.editComment(e, id)}
             >
               Edit comment
             </button>
-            <button className="ui button" onClick={e => this.props.deleteComment(comment)}>
+            <button className="ui basic button" onClick={e => this.props.deleteComment(comment)}>
               Delete comment
             </button>
           </div>
