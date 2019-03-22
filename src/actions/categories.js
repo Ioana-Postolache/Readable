@@ -1,4 +1,4 @@
-import {categoryData, getAll} from '../utils/api'
+import { getAll} from '../utils/api'
 import {showLoading, hideLoading} from 'react-redux-loading'
 
 
@@ -10,13 +10,6 @@ export function receiveCategories(categories){
   return{
     type: RECEIVE_CATEGORIES,
     payload: categories
-  }
-}
-
-function addCategory(category){
-  return{
-    type: ADD_CATEGORY,
-    payload:category
   }
 }
 

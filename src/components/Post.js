@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import { formatDate } from "../utils/helpers";
 import { handleVotePost, handleDeletePost } from "../actions/posts";
 
@@ -11,11 +11,11 @@ class Post extends Component {
 
   editPost = (e, id) => {
     e.preventDefault();
-    this.props.history.push(`/posts/${id}`);
+    this.props.history.push(`/posts/edit/${id}`);
   };
 
   deletePost = id => {
-    this.props.dispatch(handleDeletePost('posts', id));
+    this.props.dispatch(handleDeletePost("posts", id));
   };
 
   vote = event => {
@@ -47,13 +47,17 @@ class Post extends Component {
       return (
         <div className="item">
           <div className="content">
-            <div className="header">{title}</div>
+            <Link className="header" to={`/posts/${id}`} id={id}>
+              {title}
+            </Link>
             <div className="extra">
               Posted by {author} in {category} on {formatDate(timestamp)}
             </div>
             <div className="description">{body}</div>
+
             <div className="extra">
-              {commentCount} comments | Vote score: {voteScore}
+              {commentCount} comments | <i className="star icon" />
+              {voteScore}
             </div>
 
             <div className="inline">
@@ -84,10 +88,7 @@ class Post extends Component {
               <button className="ui button" onClick={e => this.editPost(e, id)}>
                 Edit post
               </button>
-              <button
-                className="ui button"
-                onClick={e => this.deletePost(id)}
-              >
+              <button className="ui button" onClick={e => this.deletePost(id)}>
                 Delete post
               </button>
             </div>

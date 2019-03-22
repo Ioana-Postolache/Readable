@@ -1,4 +1,4 @@
-import { ADD_CATEGORY, RECEIVE_CATEGORIES, SUBMIT_VOTE } from '../actions/categories'
+import { ADD_CATEGORY, RECEIVE_CATEGORIES } from '../actions/categories'
 
 export default function categories (state={}, action){
   switch(action.type){
@@ -12,7 +12,7 @@ export default function categories (state={}, action){
         ...state,
         [action.payload.id]: {...action.payload}
       }
-    
+
     default:
       return state
   }

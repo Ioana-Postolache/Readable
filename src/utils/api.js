@@ -21,9 +21,7 @@ export const getInitialData = () => {
     fetch(`${api}/categories`, { headers })
       .then(res => res.json())
       .then(data => data.categories),
-    fetch(`${api}/posts`, { headers })
-      .then(res => res.json())
-      .then(data => data)
+    getAll("posts")
   ]).then(([categories, posts]) => ({
     categories,
     posts
@@ -39,6 +37,12 @@ export const getAll = schema =>
 //used for GET /posts/:id, GET /comments/:id
 export const getData = (schema, id) =>
   fetch(`${api}/${schema}/${id}`, { headers })
+    .then(res => res.json())
+    .then(data => data);
+
+//used for GET /posts/:id
+export const getDetails = (schema, id, schema2) =>
+  fetch(`${api}/${schema}/${id}/${schema2}`, { headers })
     .then(res => res.json())
     .then(data => data);
 

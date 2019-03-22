@@ -73,7 +73,7 @@ class Posts extends Component {
               />
             </div>
             <div className="column">
-              <Link className="ui secondary button" to="/new-post">
+              <Link className="ui secondary button" to="/posts/new">
                 Create new post
               </Link>
             </div>

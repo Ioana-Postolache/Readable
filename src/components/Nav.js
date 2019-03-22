@@ -9,10 +9,7 @@ class Nav extends Component {
           <NavLink className="item" to="/" exact>
             Home
           </NavLink>
-          <NavLink className="item" to="/posts">
-            Posts
-          </NavLink>
-          <NavLink className="item" to="/new-post">
+          <NavLink className="item" to="/posts/new">
             New Post
           </NavLink>
         </div>
